@@ -1,64 +1,239 @@
-/* Reset + Fonts */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Poppins', sans-serif; line-height: 1.6; background: #fafafa; color: #222; }
+/* ========== RESET & BASE STYLING ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Navbar */
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ========== NAVBAR ========== */
 .navbar {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1rem 2rem;
-  background: linear-gradient(90deg, #8E2DE2, #4A00E0); /* Purple to Blue */
-  color: white; position: sticky; top: 0; z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-.navbar ul { display: flex; list-style: none; gap: 1.5rem; }
-.navbar a { color: white; text-decoration: none; font-weight: 500; }
-.navbar a.active, .navbar a:hover { border-bottom: 2px solid #ffeb3b; }
-.menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: white; }
 
-/* Hero */
+.navbar .logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffcc70;
+}
+
+.navbar nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar nav ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar nav ul li a:hover,
+.navbar nav ul li a.active {
+  color: #ffcc70;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ========== HERO SECTIONS ========== */
 .hero {
-  text-align: center; padding: 5rem 2rem;
-  background: linear-gradient(135deg, #00c6ff, #0072ff); /* Cyan to Blue */
-  color: white;
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #ff6f61, #d83289, #6a82fb);
+  color: #fff;
 }
-.hero h1 { font-size: 3.2rem; margin-bottom: 1rem; font-weight: 700; }
-.hero p { max-width: 700px; margin: auto; font-size: 1.2rem; margin-bottom: 2rem; }
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* ========== MAIN BUTTONS ========== */
 .cta-btn {
-  display: inline-block; background: #ff5e62; /* Vibrant Pink-Red */
-  color: white; padding: 0.8rem 2rem;
-  border-radius: 30px; font-size: 1rem; font-weight: bold; text-decoration: none;
-  transition: 0.3s;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  font-size: 1rem;
+  background: linear-gradient(90deg, #ffcc70, #ff8177);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #222;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
-.cta-btn:hover { background: #ff9966; transform: scale(1.05); }
 
-/* Features */
-.features {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem; padding: 3rem 2rem; background: #f8f9fa;
+.cta-btn:hover {
+  background: linear-gradient(90deg, #f7971e, #ffd200);
+  transform: scale(1.05);
 }
-.feature {
-  background: white; padding: 2rem; border-radius: 15px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  transition: 0.3s; text-align: center;
+
+/* ========== PLAYGROUND SECTION ========== */
+.playground {
+  text-align: center;
+  padding: 60px 20px;
 }
-.feature h2 { color: #4A00E0; margin-bottom: 1rem; }
-.feature:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
 
-/* Future Links */
-.future-links {
-  text-align: center; padding: 3rem 2rem;
-  background: linear-gradient(120deg, #ff9966, #ff5e62); /* Orange to Pink */
-  color: white;
+.playground textarea {
+  width: 90%;
+  max-width: 700px;
+  height: 150px;
+  padding: 15px;
+  border-radius: 15px;
+  border: none;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #222;
 }
-.future-links h2 { margin-bottom: 1rem; }
-.future-links a { color: white; font-weight: 600; text-decoration: none; }
-.future-links a:hover { text-decoration: underline; }
 
-/* Footer */
-footer { text-align: center; padding: 1rem; background: #222; color: #ddd; }
+.playground select {
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: none;
+  font-size: 1rem;
+  color: #222;
+}
 
-/* Responsive */
+.playground button {
+  margin-top: 10px;
+}
+
+/* ========== PREMIUM VAULT ========== */
+.premium-vault {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.premium-vault input[type="file"] {
+  margin: 20px auto;
+  display: block;
+  padding: 10px;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+}
+
+/* ========== ABOUT SECTION ========== */
+.about {
+  padding: 80px 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 900px;
+}
+
+.about h2 {
+  color: #ffcc70;
+  margin-bottom: 15px;
+}
+
+.about ul {
+  margin-top: 15px;
+  list-style: none;
+}
+
+.about ul li {
+  padding: 8px 0;
+}
+
+/* ========== PRIVACY SECTION ========== */
+.privacy {
+  padding: 60px 40px;
+  max-width: 900px;
+  margin: auto;
+  line-height: 1.8;
+}
+
+/* ========== CONTACT FORM ========== */
+.contact-form {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.contact-form form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  color: #222;
+}
+
+.contact-form button {
+  align-self: center;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  margin-top: 40px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-  .navbar ul { display: none; flex-direction: column; background: #8E2DE2; position: absolute; top: 60px; right: 0; padding: 1rem; }
-  .navbar ul.show { display: flex; }
-  .menu-toggle { display: block; }
+  .navbar nav ul {
+    display: none;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 20px;
+  }
+
+  .navbar nav ul.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
 }
