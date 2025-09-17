@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourusername.github.io/yourrepo/sitemap.xml
+# Block unnecessary files and folders
+Disallow: /style.css
+Disallow: /script.js
+Disallow: /assets/
+Disallow: /images/
+Disallow: /fonts/
+
+# Sitemap for search engines
+Sitemap: https://yourusername.github.io/VocalVerse/sitemap.xml
