@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Text-to-Speech Playground | VocalVerse</title>
+  <meta name="description" content="Try VocalVerse's free text-to-speech playground. Convert your text into realistic AI voices with male, female, child, and old age options." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎙️ VocalVerse</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="playground.html" class="active">Playground</a></li>
+        <li><a href="premium.html">Premium Vault</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle">☰</button>
+  </header>
+
+  <section class="hero">
+    <h1>Start Free Text-to-Speech</h1>
+    <p>Type your text, select a voice, and listen instantly with VocalVerse.</p>
+  </section>
+
+  <section class="playground">
+    <textarea placeholder="Type your text here..."></textarea>
+    <select>
+      <option>Select a Voice</option>
+      <option>Male - Adult</option>
+      <option>Female - Adult</option>
+      <option>Male - Child</option>
+      <option>Female - Child</option>
+      <option>Old Man</option>
+      <option>Old Woman</option>
+    </select>
+    <button class="cta-btn">🎧 Generate Voice</button>
+  </section>
+
+  <footer>
+    <p>© <span id="year"></span> VocalVerse. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
