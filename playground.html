@@ -1,51 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Text-to-Speech Playground | VocalVerse</title>
-  <meta name="description" content="Try VocalVerse's free text-to-speech playground. Convert your text into realistic AI voices with male, female, child, and old age options." />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Text to Speech Online | VocalVerse Playground</title>
+  <meta name="description" content="Convert text to lifelike speech instantly with VocalVerse Playground. Enjoy free text-to-speech online with realistic voices for men, women, children, and seniors.">
+  <meta name="keywords" content="free text to speech, AI voice generator, TTS online, realistic voices, human-like voices, VocalVerse playground">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="navbar">
-    <div class="logo">🎙️ VocalVerse</div>
+  <header>
+    <h1>🎙️ VocalVerse Playground - Free Text-to-Speech Online</h1>
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="playground.html" class="active">Playground</a></li>
-        <li><a href="premium.html">Premium Vault</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+      <a href="index.html">Home</a>
+      <a href="playground.html">Playground</a>
+      <a href="premium.html">Premium Vault</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
     </nav>
-    <button class="menu-toggle">☰</button>
   </header>
 
-  <section class="hero">
-    <h1>Start Free Text-to-Speech</h1>
-    <p>Type your text, select a voice, and listen instantly with VocalVerse.</p>
-  </section>
+  <main>
+    <section>
+      <h2>Instant Free Text-to-Speech</h2>
+      <p>Enter your text below and generate realistic speech instantly with multiple voice options. VocalVerse provides <strong>AI-powered human-like voices</strong> for all age groups and genders.</p>
+      <textarea placeholder="Type your text here..." rows="6"></textarea><br>
+      <label for="voice">Choose Voice:</label>
+      <select id="voice">
+        <option>Male - Adult</option>
+        <option>Female - Adult</option>
+        <option>Child Voice</option>
+        <option>Senior Male</option>
+        <option>Senior Female</option>
+      </select><br><br>
+      <button>Play Voice</button>
+      <button>Download MP3</button>
+    </section>
 
-  <section class="playground">
-    <textarea placeholder="Type your text here..."></textarea>
-    <select>
-      <option>Select a Voice</option>
-      <option>Male - Adult</option>
-      <option>Female - Adult</option>
-      <option>Male - Child</option>
-      <option>Female - Child</option>
-      <option>Old Man</option>
-      <option>Old Woman</option>
-    </select>
-    <button class="cta-btn">🎧 Generate Voice</button>
-  </section>
+    <section>
+      <h2>Why Use VocalVerse Playground?</h2>
+      <ul>
+        <li>✅ 100% Free Online Text-to-Speech</li>
+        <li>✅ Choose from multiple realistic AI voices</li>
+        <li>✅ Works instantly in your browser</li>
+        <li>✅ Perfect for content creators, students, and professionals</li>
+      </ul>
+    </section>
+  </main>
 
   <footer>
-    <p>© <span id="year"></span> VocalVerse. All Rights Reserved.</p>
+    <p>© 2025 VocalVerse. All Rights Reserved.</p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
