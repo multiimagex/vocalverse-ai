@@ -1,83 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VocalVerse Playground | Free Realistic Text to Speech Online</title>
-  <meta name="description" content="Use VocalVerse Playground to generate unlimited realistic text-to-speech audio. Choose from child, young, middle-aged, and elderly voices in male and female options. 100% free TTS online.">
-  <meta name="keywords" content="text to speech, free tts, realistic voices, child voice, female voice, male voice, old man voice, unlimited tts">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <style>
-    body { font-family: Arial, sans-serif; background: linear-gradient(120deg, #1c92d2, #f2fcfe); margin: 0; padding: 20px; }
-    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-    h1 { text-align: center; color: #1c92d2; }
-    textarea { width: 100%; height: 200px; padding: 15px; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
-    select, button { padding: 12px; margin: 10px 5px; border-radius: 10px; border: none; font-size: 16px; }
-    button { background: #1c92d2; color: white; cursor: pointer; transition: 0.3s; }
-    button:hover { background: #0b6fa4; }
-    .audio-player { margin-top: 20px; text-align: center; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VocalVerse - Free & Realistic Text to Speech Generator with unlimited characters and fast processing. Convert text into natural voices instantly.">
+  <meta name="keywords" content="Text to Speech, TTS, Free TTS, Realistic Voice Generator, VocalVerse, Speech Synthesizer, AI Voice, Coqui TTS">
+  <title>VocalVerse Playground - Free Realistic Text to Speech</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <header class="header">
     <h1>🎙️ VocalVerse Playground</h1>
-    <p>Generate <strong>unlimited realistic text-to-speech</strong> audio. Choose from <em>Child, Young, Middle-aged, and Elderly</em> voices in both <strong>Male and Female</strong> options.</p>
+    <p>Convert your text into ultra-realistic voices instantly.</p>
+  </header>
 
-    <textarea id="ttsText" placeholder="Enter your text here..."></textarea>
-    <br>
-    <label>Age Group:</label>
-    <select id="age">
-      <option value="child">Child</option>
-      <option value="young">Young</option>
-      <option value="middle">Middle-aged</option>
-      <option value="elderly">Elderly</option>
-    </select>
+  <main class="playground">
+    <section class="tts-box">
+      <textarea id="ttsText" placeholder="Enter your text here..."></textarea>
 
-    <label>Gender:</label>
-    <select id="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-    <br>
-    <button onclick="generateVoice()">Generate Voice</button>
+      <div class="controls">
+        <label for="voiceSelect">Choose Voice:</label>
+        <select id="voiceSelect">
+          <option value="male_en">Male (Adult)</option>
+          <option value="female_en">Female (Adult)</option>
+          <option value="old_male">Old Male</option>
+          <option value="old_female">Old Female</option>
+          <option value="child_male">Child Male</option>
+          <option value="child_female">Child Female</option>
+          <option value="lion">Lion Roar</option>
+          <option value="dog">Dog Bark</option>
+          <option value="cat">Cat Meow</option>
+        </select>
+      </div>
 
-    <div class="audio-player" id="audioPlayer"></div>
-  </div>
+      <button id="generateBtn">Generate Voice</button>
 
-  <script>
-    async function generateVoice() {
-      const text = document.getElementById("ttsText").value;
-      const age = document.getElementById("age").value;
-      const gender = document.getElementById("gender").value;
+      <div class="output">
+        <audio id="audioPlayer" controls></audio>
+      </div>
+    </section>
+  </main>
 
-      if (!text.trim()) {
-        alert("Please enter some text!");
-        return;
-      }
+  <footer class="footer">
+    <p>© 2025 VocalVerse | Free Text-to-Speech Platform</p>
+  </footer>
 
-      document.getElementById("audioPlayer").innerHTML = "<p>Generating voice... Please wait ⏳</p>";
-
-      const response = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, age, gender })
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        document.getElementById("audioPlayer").innerHTML = `
-          <audio controls>
-            <source src="${result.file}" type="audio/mp3">
-            Your browser does not support audio playback.
-          </audio>
-          <br>
-          <a href="${result.file}" download>⬇ Download MP3</a>
-        `;
-      } else {
-        document.getElementById("audioPlayer").innerHTML = `<p style="color:red;">Error: ${result.error}</p>`;
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
