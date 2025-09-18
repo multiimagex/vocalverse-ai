@@ -3,54 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Text to Speech Online | VocalVerse Playground</title>
-  <meta name="description" content="Convert text to lifelike speech instantly with VocalVerse Playground. Enjoy free text-to-speech online with realistic voices for men, women, children, and seniors.">
-  <meta name="keywords" content="free text to speech, AI voice generator, TTS online, realistic voices, human-like voices, VocalVerse playground">
+  <title>VocalVerse Playground | Free Realistic Text to Speech Online</title>
+  <meta name="description" content="Use VocalVerse Playground to generate unlimited realistic text-to-speech audio. Choose from child, young, middle-aged, and elderly voices in male and female options. 100% free TTS online.">
+  <meta name="keywords" content="text to speech, free tts, realistic voices, child voice, female voice, male voice, old man voice, unlimited tts">
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: linear-gradient(120deg, #1c92d2, #f2fcfe); margin: 0; padding: 20px; }
+    .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+    h1 { text-align: center; color: #1c92d2; }
+    textarea { width: 100%; height: 200px; padding: 15px; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
+    select, button { padding: 12px; margin: 10px 5px; border-radius: 10px; border: none; font-size: 16px; }
+    button { background: #1c92d2; color: white; cursor: pointer; transition: 0.3s; }
+    button:hover { background: #0b6fa4; }
+    .audio-player { margin-top: 20px; text-align: center; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🎙️ VocalVerse Playground - Free Text-to-Speech Online</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="playground.html">Playground</a>
-      <a href="premium.html">Premium Vault</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+  <div class="container">
+    <h1>🎙️ VocalVerse Playground</h1>
+    <p>Generate <strong>unlimited realistic text-to-speech</strong> audio. Choose from <em>Child, Young, Middle-aged, and Elderly</em> voices in both <strong>Male and Female</strong> options.</p>
 
-  <main>
-    <section>
-      <h2>Instant Free Text-to-Speech</h2>
-      <p>Enter your text below and generate realistic speech instantly with multiple voice options. VocalVerse provides <strong>AI-powered human-like voices</strong> for all age groups and genders.</p>
-      <textarea placeholder="Type your text here..." rows="6"></textarea><br>
-      <label for="voice">Choose Voice:</label>
-      <select id="voice">
-        <option>Male - Adult</option>
-        <option>Female - Adult</option>
-        <option>Child Voice</option>
-        <option>Senior Male</option>
-        <option>Senior Female</option>
-      </select><br><br>
-      <button>Play Voice</button>
-      <button>Download MP3</button>
-    </section>
+    <textarea id="ttsText" placeholder="Enter your text here..."></textarea>
+    <br>
+    <label>Age Group:</label>
+    <select id="age">
+      <option value="child">Child</option>
+      <option value="young">Young</option>
+      <option value="middle">Middle-aged</option>
+      <option value="elderly">Elderly</option>
+    </select>
 
-    <section>
-      <h2>Why Use VocalVerse Playground?</h2>
-      <ul>
-        <li>✅ 100% Free Online Text-to-Speech</li>
-        <li>✅ Choose from multiple realistic AI voices</li>
-        <li>✅ Works instantly in your browser</li>
-        <li>✅ Perfect for content creators, students, and professionals</li>
-      </ul>
-    </section>
-  </main>
+    <label>Gender:</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <br>
+    <button onclick="generateVoice()">Generate Voice</button>
 
-  <footer>
-    <p>© 2025 VocalVerse. All Rights Reserved.</p>
-  </footer>
+    <div class="audio-player" id="audioPlayer"></div>
+  </div>
+
+  <script>
+    async function generateVoice() {
+      const text = document.getElementById("ttsText").value;
+      const age = document.getElementById("age").value;
+      const gender = document.getElementById("gender").value;
+
+      if (!text.trim()) {
+        alert("Please enter some text!");
+        return;
+      }
+
+      document.getElementById("audioPlayer").innerHTML = "<p>Generating voice... Please wait ⏳</p>";
+
+      const response = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, age, gender })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        document.getElementById("audioPlayer").innerHTML = `
+          <audio controls>
+            <source src="${result.file}" type="audio/mp3">
+            Your browser does not support audio playback.
+          </audio>
+          <br>
+          <a href="${result.file}" download>⬇ Download MP3</a>
+        `;
+      } else {
+        document.getElementById("audioPlayer").innerHTML = `<p style="color:red;">Error: ${result.error}</p>`;
+      }
+    }
+  </script>
 </body>
 </html>
