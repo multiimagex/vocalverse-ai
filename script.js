@@ -1,28 +1,37 @@
-document.getElementById("generateBtn").addEventListener("click", async () => {
-  const text = document.getElementById("ttsText").value.trim();
-  const voice = document.getElementById("voiceSelect").value;
-  const audioPlayer = document.getElementById("audioPlayer");
+document.addEventListener("DOMContentLoaded", () => {
+  let freeTrialUsed = localStorage.getItem("freeTrialUsed") || false;
 
-  if (!text) {
-    alert("Please enter some text!");
-    return;
-  }
+  const forms = document.querySelectorAll("form");
+  forms.forEach(form => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  try {
-    const response = await fetch("http://127.0.0.1:5000/tts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text, voice })
+      if (freeTrialUsed && !localStorage.getItem("isLoggedIn")) {
+        document.getElementById("loginPrompt").classList.remove("hidden");
+        return;
+      }
+
+      const formData = new FormData(form);
+      const text = formData.get("text");
+      const voice = formData.get("voice") || formData.get("animalVoice");
+
+      try {
+        const response = await fetch("http://localhost:5000/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, voice })
+        });
+
+        const blob = await response.blob();
+        const audioURL = URL.createObjectURL(blob);
+        document.getElementById("audioPlayer").src = audioURL;
+
+        if (!localStorage.getItem("isLoggedIn")) {
+          localStorage.setItem("freeTrialUsed", true);
+        }
+      } catch (err) {
+        console.error("Error generating voice:", err);
+      }
     });
-
-    if (!response.ok) throw new Error("TTS request failed");
-
-    const blob = await response.blob();
-    const audioURL = URL.createObjectURL(blob);
-    audioPlayer.src = audioURL;
-    audioPlayer.play();
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Something went wrong. Check if Flask server is running.");
-  }
+  });
 });
