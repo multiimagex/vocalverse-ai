@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realistic Human Voices - VocalVerse | Free Text to Speech</title>
+  <meta name="description" content="Generate ultra-realistic human voices with VocalVerse. Choose from male and female voices across all age groups. Free trial available.">
+  <meta name="keywords" content="human voices, free tts, text to speech, realistic voice generator, VocalVerse">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <h1><a href="index.html">🎤 VocalVerse</a></h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="playground.html">Playground</a></li>
+        <li><a href="humans.html" class="active">Human Voices</a></li>
+        <li><a href="animals.html">Animal Sounds</a></li>
+        <li><a href="premium.html">Premium Vault</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="tts-container">
+    <section>
+      <h2>🎙️ Generate Human Voices</h2>
+      <p>Select from <strong>50% male & 50% female voices across all age groups</strong>. Convert your text into lifelike human speech instantly.</p>
+
+      <form id="humanTTSForm">
+        <label for="text">Enter your text:</label>
+        <textarea id="text" name="text" rows="6" placeholder="Type or paste your text here..."></textarea>
+
+        <label for="voice">Choose a Voice:</label>
+        <select id="voice" name="voice">
+          <option value="male_child">👦 Male Child</option>
+          <option value="female_child">👧 Female Child</option>
+          <option value="male_adult">👨 Male Adult</option>
+          <option value="female_adult">👩 Female Adult</option>
+          <option value="male_elder">👴 Male Elder</option>
+          <option value="female_elder">👵 Female Elder</option>
+        </select>
+
+        <button type="submit">Generate Voice</button>
+      </form>
+
+      <div id="output">
+        <h3>🔊 Generated Audio:</h3>
+        <audio controls id="audioPlayer"></audio>
+      </div>
+
+      <div id="loginPrompt" class="hidden">
+        <p>⚠️ Free trial used. Please <a href="login.html">Login</a> or <a href="signup.html">Sign Up</a> to generate unlimited voices.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 VocalVerse | Human Voices for Everyone</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
