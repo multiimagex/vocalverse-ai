@@ -1,33 +1,76 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-import tempfile
+import sqlite3
+import os
 from TTS.api import TTS
 
 app = Flask(__name__)
-CORS(app)  # Allow cross-origin requests (frontend <-> backend)
+CORS(app)
 
-# Load Coqui TTS model (CPU pe chalega, agar GPU hai to fast hoga)
-tts = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC", progress_bar=False, gpu=False)
+# =================== DATABASE ===================
+def init_db():
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute("""CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+    )""")
+    conn.commit()
+    conn.close()
 
-@app.route("/tts", methods=["POST"])
-def tts_endpoint():
+init_db()
+
+# =================== SIGNUP ===================
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
+
     try:
-        data = request.json
-        text = data.get("text", "").strip()
-        voice = data.get("voice", "male_en")
+        conn = sqlite3.connect("users.db")
+        c = conn.cursor()
+        c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+                  (name, email, password))
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True, "message": "Signup successful! Please login."})
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "message": "Email already registered."})
 
-        if not text:
-            return {"error": "No text provided"}, 400
+# =================== LOGIN ===================
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
 
-        # Temporary audio file generate karna
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmpfile:
-            tts.tts_to_file(text=text, file_path=tmpfile.name)
-            return send_file(tmpfile.name, mimetype="audio/wav")
+    conn = sqlite3.connect("users.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+    user = c.fetchone()
+    conn.close()
 
-    except Exception as e:
-        return {"error": str(e)}, 500
+    if user:
+        return jsonify({"success": True, "message": "Login successful!"})
+    else:
+        return jsonify({"success": False, "message": "Invalid email or password."})
 
+# =================== TTS ===================
+@app.route("/tts", methods=["POST"])
+def tts():
+    data = request.get_json()
+    text = data.get("text")
+    voice = data.get("voice")
+
+    tts = TTS("tts_models/en/ljspeech/tacotron2-DDC", progress_bar=False, gpu=False)
+    output_path = "output.wav"
+    tts.tts_to_file(text=text, file_path=output_path)
+
+    return send_file(output_path, mimetype="audio/wav", as_attachment=False)
 
 if __name__ == "__main__":
-    # Flask server run karega localhost pe port 5000 par
-    app.run(host="127.0.0.1", port=5000)
+    app.run(debug=True)
