@@ -1,95 +1,102 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // =================== TTS SYSTEM ===================
-  let freeTrialUsed = localStorage.getItem("freeTrialUsed") || false;
+  const form = document.getElementById("tts-form");
+  const output = document.getElementById("audio-output");
+  const loginForm = document.getElementById("login-form");
+  const signupForm = document.getElementById("signup-form");
+  const profileSection = document.getElementById("profile-section");
+  const logoutBtn = document.getElementById("logout-btn");
 
-  const forms = document.querySelectorAll("form");
-  forms.forEach(form => {
+  // Handle TTS Generation
+  if (form) {
     form.addEventListener("submit", async (e) => {
-      if (form.id === "loginForm" || form.id === "signupForm") return; // skip auth forms
       e.preventDefault();
+      const text = document.getElementById("text-input").value;
 
-      if (freeTrialUsed && !localStorage.getItem("isLoggedIn")) {
-        document.getElementById("loginPrompt").classList.remove("hidden");
-        return;
-      }
+      const res = await fetch("http://127.0.0.1:5000/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ text }),
+      });
 
-      const formData = new FormData(form);
-      const text = formData.get("text");
-      const voice = formData.get("voice") || formData.get("animalVoice");
-
-      try {
-        const response = await fetch("http://localhost:5000/tts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, voice })
-        });
-
-        const blob = await response.blob();
-        const audioURL = URL.createObjectURL(blob);
-        document.getElementById("audioPlayer").src = audioURL;
-
-        if (!localStorage.getItem("isLoggedIn")) {
-          localStorage.setItem("freeTrialUsed", true);
-        }
-      } catch (err) {
-        console.error("Error generating voice:", err);
-      }
-    });
-  });
-
-  // =================== LOGIN ===================
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const response = await fetch("http://localhost:5000/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-        });
-
-        const result = await response.json();
-        document.getElementById("loginMessage").innerText = result.message;
-
-        if (result.success) {
-          localStorage.setItem("isLoggedIn", true);
-          window.location.href = "playground.html";
-        }
-      } catch (err) {
-        console.error("Login error:", err);
+      const data = await res.json();
+      if (data.success) {
+        output.src = data.audio;
+        output.style.display = "block";
+        output.play();
+      } else {
+        alert(data.message);
       }
     });
   }
 
-  // =================== SIGNUP ===================
-  const signupForm = document.getElementById("signupForm");
+  // Signup
   if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
 
-      try {
-        const response = await fetch("http://localhost:5000/signup", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password })
-        });
+      const res = await fetch("http://127.0.0.1:5000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-        const result = await response.json();
-        document.getElementById("signupMessage").innerText = result.message;
+      const data = await res.json();
+      alert(data.message);
+      if (data.success) window.location.href = "login.html";
+    });
+  }
 
-        if (result.success) {
-          window.location.href = "login.html";
-        }
-      } catch (err) {
-        console.error("Signup error:", err);
+  // Login
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      const res = await fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      if (data.success) window.location.href = "profile.html";
+    });
+  }
+
+  // Profile
+  if (profileSection) {
+    (async () => {
+      const res = await fetch("http://127.0.0.1:5000/profile", {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById("profile-email").innerText = data.email;
+        document.getElementById("profile-usage").innerText = data.usage;
+      } else {
+        alert("Please login first!");
+        window.location.href = "login.html";
       }
+    })();
+  }
+
+  // Logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      const res = await fetch("http://127.0.0.1:5000/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      alert(data.message);
+      window.location.href = "login.html";
     });
   }
 });
